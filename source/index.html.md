@@ -2,9 +2,9 @@
 title: API Reference
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
-  - shell
-  - python
-  - javascript
+  - shell: cURL
+  - python: Python
+  - php: PHP
 
 toc_footers:
   - <a href='#'>Copyright &copy; Sobot 2023</a>
@@ -54,213 +54,245 @@ Let's dive into the world of seamless WhatsApp communication with Sobot API!
 
 # Authentication
 
-> To authorize, use this code:
+Sobot employs authentication keys to grant access to its API. To acquire a new Sobot API keys, please follow below instructons to obtain keys from our portal.
 
-```ruby
-require 'kittn'
+Sign In to [app.sobot.in](https://app.sobot.in) -> Settings -> Developers tools - > Generate Keys
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<aside class="warning">
+Every time you will generate the new keys, old keys will be deprecated. 
 </aside>
 
-# Kittens
+For each API request directed to the server, Sobot requires the API keys to be included in the header. The header should follow this format:
 
-## Get All Kittens
+`x-api-key: your-access-key`
 
-```ruby
-require 'kittn'
+`x-api-secret: your-secret-key`
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+These keys play a crucial role in ensuring the security and validity of API interactions. Please ensure that you incorporate your provided access and secret keys correctly in the headers of your API requests.
+
+<aside class="notice">
+You must replace <code>your-access-key</code> & <code>your-secret-key</code> with your personal API keys.
+</aside>
+
+
+# Free-flow Messages
+
+## Text Message
+
+```shell
+curl --location --globoff 'https://api.sobot.in/message/' \
+--header 'x-api-key: {{api-access-key}}' \
+--header 'x-api-secret: {{api-secret-key}}' \
+--data '{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}'
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+url = "https://api.sobot.in/message/"
+
+payload = "{\"message\":\"Hello\",\"type\":\"text\",\"customer_number\":\"919970XXXXXX\",\"customer_name\": \"John Doe\"}"
+headers = {
+  'x-api-key': '{{api-access-key}}',
+  'x-api-secret': '{{api-secret-key}}'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
 ```
 
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+```php
+require_once 'HTTP/Request2.php';
+$request = new HTTP_Request2();
+$request->setUrl('https://api.sobot.in/message/');
+$request->setMethod(HTTP_Request2::METHOD_POST);
+$request->setConfig(array(
+  'follow_redirects' => TRUE
+));
+$request->setHeader(array(
+  'x-api-key' => '{{api-access-key}}',
+  'x-api-secret' => '{{api-secret-key}}'
+));
+$request->setBody('{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}');
+try {
+  $response = $request->send();
+  if ($response->getStatus() == 200) {
+    echo $response->getBody();
+  }
+  else {
+    echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+    $response->getReasonPhrase();
+  }
+}
+catch(HTTP_Request2_Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+}
+
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> The above API call returns JSON response like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "data": {
+        "id": "wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA==",
+        "status": "submitted"
+    },
+    "message": "Notification sent successfully.",
+    "code": 200
+}
 ```
+This API allows you to send text messages to customers using the Sobot platform, enabling seamless communication with your customer.
 
-This endpoint retrieves all kittens.
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST https://api.sobot.in/message/`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Required | Description | Default
+--------- | ------- | ----------- | ---------------
+message | Yes | The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 4096 characters | -
+type | Yes | Type of message contents. Set to ```Text``` in case of Text messages. | -
+customer_number | Yes| WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you **include country calling code** when sending a message to a customer. If the country calling code is omitted, your business phone number's country calling code is prepended to the customer's phone number. This can result in undelivered or misdelivered messages. | -
+customer_name | Yes | Name of a customer for future reference | -
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+
+WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:
+
+Formatting     | Symbol                 | Example                     
+----------------|------------------------|-----------------------------
+Bold | Asterisk (*) | Your total is *$10.50*. 
+Italics | Underscore (_) | Welcome to _WhatsApp_! 
+Strike-through | Tilde (~) | This is ~better~ best! 
+
+### Response
+In response of successfully sent messages, you will get ```id``` & ```status``` under ```data``` key. Messages are identified by a unique ID (```wamid```). You can track message status in the Webhooks through its ```wamid```  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This ```wamid``` can have a maximum length of up to 128 characters.
+
+
+
+## Image Message
+```shell
+curl --location --globoff '{{base_url}}/message/' \
+--header 'x-api-key: {{api-access-key}}' \
+--header 'x-api-secret: {{api-secret-key}}' \
+--data '{
+    "type": "image",
+    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",
+    "customer_number": "919970585556",
+    "customer_name": "Sagar",
+    "mime_type": "image/jpeg"
+}'
+```
+
+```python
+import requests
+
+url = "{{base_url}}/message/"
+
+payload = "{\n    \"type\": \"image\",\n    \"url\": \"https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg\",\n    \"customer_number\": \"919970585556\",\n    \"customer_name\": \"Sagar\",\n    \"mime_type\": \"image/jpeg\"\n}"
+headers = {
+  'x-api-key': '{{api-access-key}}',
+  'x-api-secret': '{{api-secret-key}}'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+```
+
+```php
+require_once 'HTTP/Request2.php';
+$request = new HTTP_Request2();
+$request->setUrl('{{base_url}}/message/');
+$request->setMethod(HTTP_Request2::METHOD_POST);
+$request->setConfig(array(
+  'follow_redirects' => TRUE
+));
+$request->setHeader(array(
+  'x-api-key' => '{{api-access-key}}',
+  'x-api-secret' => '{{api-secret-key}}'
+));
+$request->setBody('{\n    "type": "image",\n    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",\n    "customer_number": "919970585556",\n    "customer_name": "Sagar",\n    "mime_type": "image/jpeg"\n}');
+try {
+  $response = $request->send();
+  if ($response->getStatus() == 200) {
+    echo $response->getBody();
+  }
+  else {
+    echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+    $response->getReasonPhrase();
+  }
+}
+catch(HTTP_Request2_Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+}
+
+```
+
+> The above API call returns JSON response like this:
+
+```json
+{
+    "data": {
+        "id": "wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA==",
+        "status": "submitted"
+    },
+    "message": "Notification sent successfully.",
+    "code": 200
+}
+```
+This API allows you to send text messages to customers using the Sobot platform, enabling seamless communication with your customer.
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST https://api.sobot.in/message/`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required | Description | Default
+--------- | ------- | ----------- | ---------------
+message | Yes | The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 4096 characters | -
+type | Yes | Type of message contents. Set to ```Text``` in case of Text messages. | -
+customer_number | Yes| WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you **include country calling code** when sending a message to a customer. If the country calling code is omitted, your business phone number's country calling code is prepended to the customer's phone number. This can result in undelivered or misdelivered messages. | -
+customer_name | Yes | Name of a customer for future reference | -
 
-## Delete a Specific Kitten
 
-```ruby
-require 'kittn'
+WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
+Formatting     | Symbol                 | Example                     
+----------------|------------------------|-----------------------------
+Bold | Asterisk (*) | Your total is *$10.50*. 
+Italics | Underscore (_) | Welcome to _WhatsApp_! 
+Strike-through | Tilde (~) | This is ~better~ best! 
 
-```python
-import kittn
+### Response
+In response of successfully sent messages, you will get ```id``` & ```status``` under ```data``` key. Messages are identified by a unique ID (```wamid```). You can track message status in the Webhooks through its ```wamid```  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This ```wamid``` can have a maximum length of up to 128 characters.
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Button Message
 
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
+# Template
+Templates are used in template messages to open marketing, utility, and authentication conversations with customers. Unlike free-form messages, template messages are the only type of message that can be sent to customers who have yet to message you, or who have not sent you a message in the last 24 hours.
 
-```javascript
-const kittn = require('kittn');
+Templates must be approved before they can be sent in template messages. In addition, templates may be disabled automatically based on customer feedback. Once disabled, a template cannot be sent in a template message until its quality rating has improved or it no longer violates our business or commerce policies.
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
+## Send Messages
 
-> The above command returns JSON structured like this:
+# Template Messages
 
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
+## Text Message
 
-This endpoint deletes a specific kitten.
+## Text Message with Buttons
 
-### HTTP Request
+## Text Message with CTA
 
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
