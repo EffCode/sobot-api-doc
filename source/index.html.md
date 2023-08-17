@@ -3,12 +3,11 @@ title: API Reference
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
   - shell
-  - ruby
   - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='#'>Copyright &copy; Sobot 2023</a>
   - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -29,9 +28,9 @@ Welcome to the Sobot API documentation! Our API allows you to seamlessly integra
 Whether you're building a customer support tool, enhancing your marketing capabilities, or creating innovative communication solutions, the Sobot API empowers you with a range of operations to interact with the WhatsApp team inbox and harness its features.
 
 ## Getting Started
-To get started with the Sobot API, you'll need an API key that you can obtain by signing up for an account on our platform. Once you have your API key, you can authenticate your requests and start accessing the Sobot API endpoints.
+To get started with the Sobot API, you'll need an [Access & Secret Keys](#authentication) that you can [obtain by signing up](https://app.sobot.in/signup) for an account on our platform. Once you have your Access & Secret keys, you can authenticate your requests and start accessing the Sobot API endpoints.
 
-We provide language bindings in several programming languages, including Shell, Ruby, Python, and JavaScript. In this documentation, you'll find code examples demonstrating API usage in these languages. The code examples are displayed in the dark area to the right, and you can easily switch between programming languages using the tabs in the top right corner of the code examples.
+We provide language bindings in several programming languages, including Shell, Python, and JavaScript. In this documentation, you'll find code examples demonstrating API usage in these languages. The code examples are displayed in the dark area to the right, and you can easily switch between programming languages using the tabs in the top right corner of the code examples.
 
 ## API Endpoints and Operations
 The Sobot API supports a variety of operations that allow you to interact with the WhatsApp team inbox seamlessly. Some of the key operations supported by the API include:
