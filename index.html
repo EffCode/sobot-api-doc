@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;php&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -303,11 +303,11 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-54f5189a.png" class="logo" alt="" />
+      <img src="images/logo-d2a765c7.png" class="logo" alt="" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="python">Python</a>
+              <a href="#" data-language-name="php">PHP</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -332,16 +332,38 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#free-flow-messages" class="toc-h1 toc-link" data-title="Free-flow Messages">Free-flow Messages</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#text-message" class="toc-h2 toc-link" data-title="Text Message">Text Message</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#image-message" class="toc-h2 toc-link" data-title="Image Message">Image Message</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#button-message" class="toc-h2 toc-link" data-title="Button Message">Button Message</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#template" class="toc-h1 toc-link" data-title="Template">Template</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#send-messages" class="toc-h2 toc-link" data-title="Send Messages">Send Messages</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#template-messages" class="toc-h1 toc-link" data-title="Template Messages">Template Messages</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#text-message-2" class="toc-h2 toc-link" data-title="Text Message">Text Message</a>
+                  </li>
+                  <li>
+                    <a href="#text-message-with-buttons" class="toc-h2 toc-link" data-title="Text Message with Buttons">Text Message with Buttons</a>
+                  </li>
+                  <li>
+                    <a href="#text-message-with-cta" class="toc-h2 toc-link" data-title="Text Message with CTA">Text Message with CTA</a>
                   </li>
               </ul>
           </li>
@@ -384,179 +406,286 @@
 
 <p>Let&#39;s dive into the world of seamless WhatsApp communication with Sobot API!</p>
 <h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Sobot employs authentication keys to grant access to its API. To acquire a new Sobot API keys, please follow below instructons to obtain keys from our portal.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>Sign In to <a href="https://app.sobot.in">app.sobot.in</a> -&gt; Settings -&gt; Developers tools - &gt; Generate Keys</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<aside class="warning">
+Every time you will generate the new keys, old keys will be deprecated. 
+</aside>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>For each API request directed to the server, Sobot requires the API keys to be included in the header. The header should follow this format:</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p><code>x-api-key: your-access-key</code></p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p><code>x-api-secret: your-secret-key</code></p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>These keys play a crucial role in ensuring the security and validity of API interactions. Please ensure that you incorporate your provided access and secret keys correctly in the headers of your API requests.</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>your-access-key</code> & <code>your-secret-key</code> with your personal API keys.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='free-flow-messages'>Free-flow Messages</h1><h2 id='text-message'>Text Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: {{api-access-key}}'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: {{api-secret-key}}'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\"</span><span class="s">message</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Hello</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">text</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">customer_number</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">919970XXXXXX</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">customer_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">John Doe</span><span class="se">\"</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'{{api-access-key}}'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'{{api-secret-key}}'</span>
+<span class="p">}</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-access-key}}'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-secret-key}}'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
 </code></pre></div>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The above API call returns JSON response like this:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
+<p>This API allows you to send text messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>POST https://api.sobot.in/message/</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
 <th>Default</th>
-<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 4096 characters</td>
+<td>-</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>Text</code> in case of Text messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<p>WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:</p>
+
+<table><thead>
+<tr>
+<th>Formatting</th>
+<th>Symbol</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Bold</td>
+<td>Asterisk (*)</td>
+<td>Your total is <em>$10.50</em>.</td>
+</tr>
+<tr>
+<td>Italics</td>
+<td>Underscore (_)</td>
+<td>Welcome to <em>WhatsApp</em>!</td>
+</tr>
+<tr>
+<td>Strike-through</td>
+<td>Tilde (~)</td>
+<td>This is ~better~ best!</td>
+</tr>
+</tbody></table>
+<h3 id='response'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='image-message'>Image Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'{{base_url}}/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: {{api-access-key}}'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: {{api-secret-key}}'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+    "type": "image",
+    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",
+    "customer_number": "919970585556",
+    "customer_name": "Sagar",
+    "mime_type": "image/jpeg"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"{{base_url}}/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">image</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">url</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">customer_number</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">919970585556</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">customer_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Sagar</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">mime_type</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">image/jpeg</span><span class="se">\"\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'{{api-access-key}}'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'{{api-secret-key}}'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'{{base_url}}/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-access-key}}'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-secret-key}}'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    "type": "image",\n    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",\n    "customer_number": "919970585556",\n    "customer_name": "Sagar",\n    "mime_type": "image/jpeg"\n}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send text messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Required</th>
 <th>Description</th>
+<th>Default</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 4096 characters</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>Text</code> in case of Text messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-X</span> DELETE <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Description</th>
+<th>Formatting</th>
+<th>Symbol</th>
+<th>Example</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>Bold</td>
+<td>Asterisk (*)</td>
+<td>Your total is <em>$10.50</em>.</td>
+</tr>
+<tr>
+<td>Italics</td>
+<td>Underscore (_)</td>
+<td>Welcome to <em>WhatsApp</em>!</td>
+</tr>
+<tr>
+<td>Strike-through</td>
+<td>Tilde (~)</td>
+<td>This is ~better~ best!</td>
 </tr>
 </tbody></table>
-<h1 id='errors'>Errors</h1>
+<h3 id='response-2'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='button-message'>Button Message</h2><h1 id='template'>Template</h1>
+<p>Templates are used in template messages to open marketing, utility, and authentication conversations with customers. Unlike free-form messages, template messages are the only type of message that can be sent to customers who have yet to message you, or who have not sent you a message in the last 24 hours.</p>
+
+<p>Templates must be approved before they can be sent in template messages. In addition, templates may be disabled automatically based on customer feedback. Once disabled, a template cannot be sent in a template message until its quality rating has improved or it no longer violates our business or commerce policies.</p>
+<h2 id='send-messages'>Send Messages</h2><h1 id='template-messages'>Template Messages</h1><h2 id='text-message-2'>Text Message</h2><h2 id='text-message-with-buttons'>Text Message with Buttons</h2><h2 id='text-message-with-cta'>Text Message with CTA</h2><h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
@@ -618,9 +747,9 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="python">Python</a>
+                <a href="#" data-language-name="php">PHP</a>
           </div>
       </div>
     </div>
