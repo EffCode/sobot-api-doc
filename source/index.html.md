@@ -83,7 +83,12 @@ You must replace <code>your-access-key</code> & <code>your-secret-key</code> wit
 curl --location --globoff 'https://api.sobot.in/message/' \
 --header 'x-api-key: {{api-access-key}}' \
 --header 'x-api-secret: {{api-secret-key}}' \
---data '{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}'
+--data '{
+          "message":"Hello",
+          "type":"text",
+          "customer_number":"919970XXXXXX",
+          "customer_name": "John Doe"
+}'
 ```
 
 ```python
@@ -153,7 +158,7 @@ You can only send a text message up until 24 hours after receiving a message fro
 
 `POST https://api.sobot.in/message/`
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description | Default
 --------- | ------- | ----------- | ---------------
@@ -183,9 +188,9 @@ curl --location --globoff '{{base_url}}/message/' \
 --header 'x-api-secret: {{api-secret-key}}' \
 --data '{
     "type": "image",
-    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",
-    "customer_number": "919970585556",
-    "customer_name": "Sagar",
+    "url": "https://example.com/images/20230625_003239.jpg",
+    "customer_number": "919970XXXXXX",
+    "customer_name": "John Doe",
     "mime_type": "image/jpeg"
 }'
 ```
@@ -195,7 +200,7 @@ import requests
 
 url = "{{base_url}}/message/"
 
-payload = "{\n    \"type\": \"image\",\n    \"url\": \"https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg\",\n    \"customer_number\": \"919970585556\",\n    \"customer_name\": \"Sagar\",\n    \"mime_type\": \"image/jpeg\"\n}"
+payload = "{\n    \"type\": \"image\",\n    \"url\": \"https://example.com/images/20230625_003239.jpg\",\n    \"customer_number\": \"919970585556\",\n    \"customer_name\": \"Sagar\",\n    \"mime_type\": \"image/jpeg\"\n}"
 headers = {
   'x-api-key': '{{api-access-key}}',
   'x-api-secret': '{{api-secret-key}}'
@@ -218,7 +223,7 @@ $request->setHeader(array(
   'x-api-key' => '{{api-access-key}}',
   'x-api-secret' => '{{api-secret-key}}'
 ));
-$request->setBody('{\n    "type": "image",\n    "url": "https://sobot-assets.s3.amazonaws.com/113367044717422/105445182186358/images/20230625_003239.jpg",\n    "customer_number": "919970585556",\n    "customer_name": "Sagar",\n    "mime_type": "image/jpeg"\n}');
+$request->setBody('{\n    "type": "image",\n    "url": "https://example.com/images/20230625_003239.jpg",\n    "customer_number": "919970585556",\n    "customer_name": "Sagar",\n    "mime_type": "image/jpeg"\n}');
 try {
   $response = $request->send();
   if ($response->getStatus() == 200) {
@@ -247,7 +252,7 @@ catch(HTTP_Request2_Exception $e) {
     "code": 200
 }
 ```
-This API allows you to send text messages to customers using the Sobot platform, enabling seamless communication with your customer.
+This API allows you to send image messages to customers using the Sobot platform, enabling seamless communication with your customer.
 
 <aside class="warning">
 You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
@@ -257,23 +262,28 @@ You can only send a text message up until 24 hours after receiving a message fro
 
 `POST https://api.sobot.in/message/`
 
-### Query Parameters
+### Body Parameters
 
 Parameter | Required | Description | Default
 --------- | ------- | ----------- | ---------------
-message | Yes | The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 4096 characters | -
-type | Yes | Type of message contents. Set to ```Text``` in case of Text messages. | -
+type | Yes | Type of message contents. Set to ```image``` in case of Image messages. | -
+url | Yes | URL of an image you want to send to customer and this image has to be acessible without any aunthetication. <br /><br /> Please check supported Media Types below.| - 
+mime_type | Yes | Mime-type of image that you added in the URL <br /><br /> e.g. image/jpeg, image/png | -
 customer_number | Yes| WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you **include country calling code** when sending a message to a customer. If the country calling code is omitted, your business phone number's country calling code is prepended to the customer's phone number. This can result in undelivered or misdelivered messages. | -
 customer_name | Yes | Name of a customer for future reference | -
+caption | No | The text to send along with the image message.<br/> <br/> Maximum length: 1024 characters | -
 
 
-WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:
+### Supported Media Types
 
-Formatting     | Symbol                 | Example                     
-----------------|------------------------|-----------------------------
-Bold | Asterisk (*) | Your total is *$10.50*. 
-Italics | Underscore (_) | Welcome to _WhatsApp_! 
-Strike-through | Tilde (~) | This is ~better~ best! 
+| Media     | Supported Types| Size Limit                                       |
+|-----------|----------------|-----------|
+| audio | audio/aac, audio/mp4, audio/mpeg, audio/amr, audio/ogg<br/> (only opus codecs, base audio/ogg is not supported) | 16MB |
+| document | text/plain, application/pdf, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 100MB |
+| image | image/jpeg, image/png Images must be 8-bit, RGB or RGBA | 5MB |
+| video | video/mp4, video/3gp<br/><br/> Notes: <br/>Only H.264 video codec and AAC audio codec is supported. <br/>We support videos with a single audio stream or no audio stream. | 16MB |
+| sticker | image/webp | Static stickers: 100KB<br/><br/> Animated stickers: 500KB |
+
 
 ### Response
 In response of successfully sent messages, you will get ```id``` & ```status``` under ```data``` key. Messages are identified by a unique ID (```wamid```). You can track message status in the Webhooks through its ```wamid```  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This ```wamid``` can have a maximum length of up to 128 characters.
