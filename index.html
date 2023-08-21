@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta
             name="description"
-            content="Documentation for the Kittn API"
+            content="Documentation for the Sobot API"
         >
-    <title>API Reference</title>
+    <title>Sobot API Reference</title>
 
     <style media="screen">
       .highlight table td { padding: 5px; }
@@ -341,29 +341,28 @@
                     <a href="#image-message" class="toc-h2 toc-link" data-title="Image Message">Image Message</a>
                   </li>
                   <li>
+                    <a href="#sticker-message" class="toc-h2 toc-link" data-title="Sticker Message">Sticker Message</a>
+                  </li>
+                  <li>
+                    <a href="#video-message" class="toc-h2 toc-link" data-title="Video Message">Video Message</a>
+                  </li>
+                  <li>
+                    <a href="#document-message" class="toc-h2 toc-link" data-title="Document Message">Document Message</a>
+                  </li>
+                  <li>
+                    <a href="#location-message" class="toc-h2 toc-link" data-title="Location Message">Location Message</a>
+                  </li>
+                  <li>
                     <a href="#button-message" class="toc-h2 toc-link" data-title="Button Message">Button Message</a>
                   </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#template" class="toc-h1 toc-link" data-title="Template">Template</a>
-              <ul class="toc-list-h2">
                   <li>
-                    <a href="#send-messages" class="toc-h2 toc-link" data-title="Send Messages">Send Messages</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#template-messages" class="toc-h1 toc-link" data-title="Template Messages">Template Messages</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#text-message-2" class="toc-h2 toc-link" data-title="Text Message">Text Message</a>
+                    <a href="#list-message" class="toc-h2 toc-link" data-title="List Message">List Message</a>
                   </li>
                   <li>
-                    <a href="#text-message-with-buttons" class="toc-h2 toc-link" data-title="Text Message with Buttons">Text Message with Buttons</a>
+                    <a href="#single-product-message" class="toc-h2 toc-link" data-title="Single Product Message">Single Product Message</a>
                   </li>
                   <li>
-                    <a href="#text-message-with-cta" class="toc-h2 toc-link" data-title="Text Message with CTA">Text Message with CTA</a>
+                    <a href="#multi-product-message" class="toc-h2 toc-link" data-title="Multi-product Message">Multi-product Message</a>
                   </li>
               </ul>
           </li>
@@ -408,7 +407,9 @@
 <h1 id='authentication'>Authentication</h1>
 <p>Sobot employs authentication keys to grant access to its API. To acquire a new Sobot API keys, please follow below instructons to obtain keys from our portal.</p>
 
-<p>Sign In to <a href="https://app.sobot.in">app.sobot.in</a> -&gt; Settings -&gt; Developers tools - &gt; Generate Keys</p>
+<p>Sign In to <a href="https://app.sobot.in">app.sobot.in</a> -&gt; Settings -&gt; Developers tools - &gt; Generate New Keys</p>
+
+<p>(Only Admin can generate API Keys.)</p>
 
 <aside class="warning">
 Every time you will generate the new keys, old keys will be deprecated. 
@@ -416,18 +417,19 @@ Every time you will generate the new keys, old keys will be deprecated.
 
 <p>For each API request directed to the server, Sobot requires the API keys to be included in the header. The header should follow this format:</p>
 
-<p><code>x-api-key: your-access-key</code></p>
+<p><code>x-api-key: yourapiaccesskey</code></p>
 
-<p><code>x-api-secret: your-secret-key</code></p>
+<p><code>x-api-secret: yourapisecretkey</code></p>
 
 <p>These keys play a crucial role in ensuring the security and validity of API interactions. Please ensure that you incorporate your provided access and secret keys correctly in the headers of your API requests.</p>
 
 <aside class="notice">
-You must replace <code>your-access-key</code> & <code>your-secret-key</code> with your personal API keys.
+You must replace <code>yourapiaccesskey</code> & <code>yourapisecretkey</code> with your personal API keys.
 </aside>
 <h1 id='free-flow-messages'>Free-flow Messages</h1><h2 id='text-message'>Text Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
-<span class="nt">--header</span> <span class="s1">'x-api-key: {{api-access-key}}'</span> <span class="se">\</span>
-<span class="nt">--header</span> <span class="s1">'x-api-secret: {{api-secret-key}}'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
 <span class="nt">--data</span> <span class="s1">'{
           "message":"Hello",
           "type":"text",
@@ -435,13 +437,21 @@ You must replace <code>your-access-key</code> & <code>your-secret-key</code> wit
           "customer_name": "John Doe"
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
 
-<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\"</span><span class="s">message</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">Hello</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">text</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">customer_number</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">919970XXXXXX</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">customer_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">John Doe</span><span class="se">\"</span><span class="s">}"</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+  <span class="s">"message"</span><span class="p">:</span> <span class="s">"Hello"</span><span class="p">,</span>
+  <span class="s">"type"</span><span class="p">:</span> <span class="s">"text"</span><span class="p">,</span>
+  <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+  <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span>
+<span class="p">}</span>
+<span class="p">)</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'{{api-access-key}}'</span><span class="p">,</span>
-  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'{{api-secret-key}}'</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
@@ -455,10 +465,15 @@ You must replace <code>your-access-key</code> & <code>your-secret-key</code> wit
   <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
 <span class="p">));</span>
 <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-access-key}}'</span><span class="p">,</span>
-  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-secret-key}}'</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
 <span class="p">));</span>
-<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{"message":"Hello","type":"text","customer_number":"919970XXXXXX","customer_name": "John Doe"}'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{"message":"Hello",
+"type":"text",
+"customer_number":"919970XXXXXX",
+"customer_name": "John Doe"}'</span>
+<span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
   <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
@@ -482,7 +497,7 @@ You must replace <code>your-access-key</code> & <code>your-secret-key</code> wit
         </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
         </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -555,9 +570,10 @@ You can only send a text message up until 24 hours after receiving a message fro
 </tbody></table>
 <h3 id='response'>Response</h3>
 <p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
-<h2 id='image-message'>Image Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'{{base_url}}/message/'</span> <span class="se">\</span>
-<span class="nt">--header</span> <span class="s1">'x-api-key: {{api-access-key}}'</span> <span class="se">\</span>
-<span class="nt">--header</span> <span class="s1">'x-api-secret: {{api-secret-key}}'</span> <span class="se">\</span>
+<h2 id='image-message'>Image Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
 <span class="nt">--data</span> <span class="s1">'{
     "type": "image",
     "url": "https://example.com/images/20230625_003239.jpg",
@@ -566,13 +582,20 @@ You can only send a text message up until 24 hours after receiving a message fro
     "mime_type": "image/jpeg"
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="s">"{{base_url}}/message/"</span>
-
-<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">type</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">image</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">url</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">https://example.com/images/20230625_003239.jpg</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">customer_number</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">919970585556</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">customer_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Sagar</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">mime_type</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">image/jpeg</span><span class="se">\"\n</span><span class="s">}"</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">({</span>
+  <span class="s">"type"</span><span class="p">:</span> <span class="s">"image"</span><span class="p">,</span>
+  <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://example.com/images/20230625_003239.jpg"</span><span class="p">,</span>
+  <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+  <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+  <span class="s">"mime_type"</span><span class="p">:</span> <span class="s">"image/jpeg"</span>
+<span class="p">})</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'{{api-access-key}}'</span><span class="p">,</span>
-  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'{{api-secret-key}}'</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
@@ -580,16 +603,22 @@ You can only send a text message up until 24 hours after receiving a message fro
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
 <span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
-<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'{{base_url}}/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
 <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
 <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
   <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
 <span class="p">));</span>
 <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-access-key}}'</span><span class="p">,</span>
-  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'{{api-secret-key}}'</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span>
 <span class="p">));</span>
-<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    "type": "image",\n    "url": "https://example.com/images/20230625_003239.jpg",\n    "customer_number": "919970585556",\n    "customer_name": "Sagar",\n    "mime_type": "image/jpeg"\n}'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    
+"type": "image",\n    
+"url": "https://example.com/images/20230625_003239.jpg",\n    
+"customer_number": "919970XXXXXX",\n    
+"customer_name": "John Doe",\n    
+"mime_type": "image/jpeg"\n}'</span>
+<span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
   <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
@@ -613,7 +642,7 @@ You can only send a text message up until 24 hours after receiving a message fro
         </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
         </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
     </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -642,7 +671,7 @@ You can only send a text message up until 24 hours after receiving a message fro
 <tr>
 <td>url</td>
 <td>Yes</td>
-<td>URL of an image you want to send to customer and this image has to be acessible without any aunthetication. <br /><br /> Please check supported Media Types below.</td>
+<td>URL of an image you want to send to customer and this image should be publicly accessible. <br /><br /> Please check supported Media Types below.</td>
 <td>-</td>
 </tr>
 <tr>
@@ -679,38 +708,1308 @@ You can only send a text message up until 24 hours after receiving a message fro
 </tr>
 </thead><tbody>
 <tr>
-<td>audio</td>
-<td>audio/aac, audio/mp4, audio/mpeg, audio/amr, audio/ogg<br/> (only opus codecs, base audio/ogg is not supported)</td>
-<td>16MB</td>
-</tr>
-<tr>
-<td>document</td>
-<td>text/plain, application/pdf, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
-<td>100MB</td>
-</tr>
-<tr>
 <td>image</td>
 <td>image/jpeg, image/png Images must be 8-bit, RGB or RGBA</td>
 <td>5MB</td>
 </tr>
+</tbody></table>
+<h3 id='response-2'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='sticker-message'>Sticker Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+    "type": "image",
+    "url": "https://example.com/stickers/20230625_003239.webp",
+    "customer_number": "919970XXXXXX",
+    "customer_name": "John Doe",
+    "mime_type": "image/webp"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">({</span>
+  <span class="s">"type"</span><span class="p">:</span> <span class="s">"image"</span><span class="p">,</span>
+  <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://example.com/stickers/20230625_003239.webp"</span><span class="p">,</span>
+  <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+  <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+  <span class="s">"mime_type"</span><span class="p">:</span> <span class="s">"image/webp"</span>
+<span class="p">})</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    
+"type": "image",\n    
+"url": "https://example.com/stickers/20230625_003239.webp",\n    
+"customer_number": "919970XXXXXX",\n    
+"customer_name": "John Doe",\n    
+"mime_type": "image/webp"\n}'</span>
+<span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send sticker messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-3'>Body Parameters</h3>
+<table><thead>
 <tr>
-<td>video</td>
-<td>video/mp4, video/3gp<br/><br/> Notes: <br/>Only H.264 video codec and AAC audio codec is supported. <br/>We support videos with a single audio stream or no audio stream.</td>
-<td>16MB</td>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
 </tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>sticker</code> in case of Sticker messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Yes</td>
+<td>URL of an sticker you want to send to customer and this sticker file should be publicly accessible. <br /><br /> Please check supported Media Types below.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>mime_type</td>
+<td>Yes</td>
+<td>Mime-type of image that you added in the URL <br /><br /> e.g. image/webp</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='supported-media-types-2'>Supported Media Types</h3>
+<table><thead>
+<tr>
+<th>Media</th>
+<th>Supported Types</th>
+<th>Size Limit</th>
+</tr>
+</thead><tbody>
 <tr>
 <td>sticker</td>
 <td>image/webp</td>
 <td>Static stickers: 100KB<br/><br/> Animated stickers: 500KB</td>
 </tr>
 </tbody></table>
-<h3 id='response-2'>Response</h3>
+<h3 id='response-3'>Response</h3>
 <p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
-<h2 id='button-message'>Button Message</h2><h1 id='template'>Template</h1>
-<p>Templates are used in template messages to open marketing, utility, and authentication conversations with customers. Unlike free-form messages, template messages are the only type of message that can be sent to customers who have yet to message you, or who have not sent you a message in the last 24 hours.</p>
+<h2 id='video-message'>Video Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+    "type": "video",
+    "url": "https://example.com/videos/20230625_003239.mp4",
+    "customer_number": "919970XXXXXX",
+    "customer_name": "John Doe",
+    "mime_type": "video/mp4"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
 
-<p>Templates must be approved before they can be sent in template messages. In addition, templates may be disabled automatically based on customer feedback. Once disabled, a template cannot be sent in a template message until its quality rating has improved or it no longer violates our business or commerce policies.</p>
-<h2 id='send-messages'>Send Messages</h2><h1 id='template-messages'>Template Messages</h1><h2 id='text-message-2'>Text Message</h2><h2 id='text-message-with-buttons'>Text Message with Buttons</h2><h2 id='text-message-with-cta'>Text Message with CTA</h2><h1 id='errors'>Errors</h1>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+  <span class="s">"type"</span><span class="p">:</span> <span class="s">"video"</span><span class="p">,</span>
+  <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://example.com/videos/20230625_003239.mp4"</span><span class="p">,</span>
+  <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+  <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+  <span class="s">"mime_type"</span><span class="p">:</span> <span class="s">"video/mp4"</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    "type": "video",\n    
+"url": "https://example.com/videos/20230625_003239.mp4",\n    
+"customer_number": "919970XXXXXX",\n    
+"customer_name": "John Doe",\n    
+"mime_type": "video/mp4"\n}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send video messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-4'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>video</code> in case of Video messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Yes</td>
+<td>URL of an video you want to send to customer and this video file should be publicly accessible. <br /><br /> Please check supported Media Types below.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>mime_type</td>
+<td>Yes</td>
+<td>Mime-type of image that you added in the URL <br /><br /> e.g. video/mp4, video/3gp</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The text to send along with the video message.<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='supported-media-types-3'>Supported Media Types</h3>
+<table><thead>
+<tr>
+<th>Media</th>
+<th>Supported Types</th>
+<th>Size Limit</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>video</td>
+<td>video/mp4, video/3gp<br/><br/> Notes: <br/>Only H.264 video codec and AAC audio codec is supported. <br/>We support videos with a single audio stream or no audio stream.</td>
+<td>16MB</td>
+</tr>
+</tbody></table>
+<h3 id='response-4'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='document-message'>Document Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+    "type": "document",
+    "url": "https://example.com/documents/20230625_003239.pdf",
+    "customer_number": "919970XXXXXX",
+    "customer_name": "John Doe",
+    "mime_type": "application/pdf",
+    "filename": "file.pdf"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+  <span class="s">"type"</span><span class="p">:</span> <span class="s">"document"</span><span class="p">,</span>
+  <span class="s">"url"</span><span class="p">:</span> <span class="s">"https://example.com/documents/20230625_003239.pdf"</span><span class="p">,</span>
+  <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+  <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+  <span class="s">"mime_type"</span><span class="p">:</span> <span class="s">"application/pdf"</span><span class="p">,</span>
+  <span class="s">"filename"</span><span class="p">:</span> <span class="s">"file.pdf"</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span><span class="o">:</span> <span class="s1">'application/json'</span>
+
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    "type": "document",\n    
+"url": "https://example.com/documents/20230625_003239.pdf",\n   
+ "customer_number": "919970XXXXXX",\n    
+ "customer_name": "John Doe",\n    
+ "mime_type": "application/pdf",\n    
+ "filename": "file.pdf"\n}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send document messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-5'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>document</code> in case of document messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Yes</td>
+<td>URL of an document you want to send to customer and this document file should be publicly accessible. <br /><br /> Please check supported Media Types below.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>mime_type</td>
+<td>Yes</td>
+<td>Mime-type of image that you added in the URL <br /><br /> e.g. application/pdf, application/msword</td>
+<td>-</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>Yes</td>
+<td>Name of a file that you&#39;ve mentioned in a <code>url</code> parameter.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The text to send along with the document message.<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='supported-media-types-4'>Supported Media Types</h3>
+<table><thead>
+<tr>
+<th>Media</th>
+<th>Supported Types</th>
+<th>Size Limit</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>document</td>
+<td>text/plain, application/pdf, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td>100MB</td>
+</tr>
+</tbody></table>
+<h3 id='response-5'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='location-message'>Location Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+    "type": "location",
+    "customer_number": "919970XXXXXX",
+    "customer_name": "John Doe",
+    "longitude": "78.272125", 
+    "latitude": "13.891411",
+    "location_name": "New York, NYC",
+    "address": "13, New York Street, NY, US."
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+    <span class="s">"type"</span><span class="p">:</span> <span class="s">"location"</span><span class="p">,</span>
+    <span class="s">"customer_number"</span><span class="p">:</span> <span class="s">"919970XXXXXX"</span><span class="p">,</span>
+    <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+    <span class="s">"longitude"</span><span class="p">:</span> <span class="s">"78.272125"</span><span class="p">,</span> 
+    <span class="s">"latitude"</span><span class="p">:</span> <span class="s">"13.891411"</span><span class="p">,</span>
+    <span class="s">"location_name"</span><span class="p">:</span> <span class="s">"New York, NYC"</span><span class="p">,</span>
+    <span class="s">"address"</span><span class="p">:</span> <span class="s">"13, New York Street, NY, US."</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span><span class="o">:</span> <span class="s1">'application/json'</span>
+
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n    {
+    "type": "location",\n
+    "customer_number": "919970XXXXXX",\n
+    "customer_name": "John Doe",\n
+    "longitude": "78.272125",\n
+    "latitude": "13.891411",\n
+    "location_name": "New York, NYC",\n
+    "address": "13, New York Street, NY, US."}\n}'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send location messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-6'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>location</code> in case of Location messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Yes</td>
+<td>Longitude of the location.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>Yes</td>
+<td>Latitude of the location.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>name</td>
+<td>No</td>
+<td>Name of the location.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Address</td>
+<td>No</td>
+<td>Only displayed if name is present.</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='response-6'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='button-message'>Button Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+          "message":"Hello",
+          "customer_number":"919970XXXXXX",
+          "customer_name": "John Doe",
+          "type": "quick_reply",
+          "buttons": ["one", "two", "three"],
+          "header": "This is a header",
+          "caption": "This will go in footer"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+          <span class="s">"message"</span><span class="p">:</span><span class="s">"Hello"</span><span class="p">,</span>
+          <span class="s">"customer_number"</span><span class="p">:</span><span class="s">"919970XXXXXX"</span><span class="p">,</span>
+          <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="p">:</span> <span class="s">"quick_reply"</span><span class="p">,</span>
+          <span class="s">"buttons"</span><span class="p">:</span> <span class="p">[</span><span class="s">"one"</span><span class="p">,</span> <span class="s">"two"</span><span class="p">,</span> <span class="s">"three"</span><span class="p">],</span>
+          <span class="s">"header"</span><span class="p">:</span> <span class="s">"This is a header"</span><span class="p">,</span>
+          <span class="s">"caption"</span><span class="p">:</span> <span class="s">"This will go in footer"</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n
+          "message":"Hello",\n
+          "customer_number":"919970XXXXXX",\n
+          "customer_name": "John Doe",\n
+          "type": "quick_reply",\n
+          "buttons": ["one", "two", "three"], \n
+          "header": "This is a header",\n
+          "caption": "This will go in footer"
+          \n}'</span>
+<span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send messages with Buttons (Quick reply) to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-7'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>quick_reply</code> in case of Button messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>buttons</td>
+<td>Yes</td>
+<td>Array of strings consist of Title of buttons. You can have up to 3 buttons. It cannot be an empty string and must be unique within the message. Emojis are supported, markdown is not. Maximum length: 20 characters.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>header</td>
+<td>No</td>
+<td>Header content displayed on top of a message. No Emojis. markdown and Links are supported Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The footer content. Emojis, markdown, and links are supported. Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+</tbody></table>
+
+<p>WhatsApp allows some formatting in messages. To format all or part of a message, use these formatting symbols:</p>
+
+<table><thead>
+<tr>
+<th>Formatting</th>
+<th>Symbol</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Bold</td>
+<td>Asterisk (*)</td>
+<td>Your total is <em>$10.50</em>.</td>
+</tr>
+<tr>
+<td>Italics</td>
+<td>Underscore (_)</td>
+<td>Welcome to <em>WhatsApp</em>!</td>
+</tr>
+<tr>
+<td>Strike-through</td>
+<td>Tilde (~)</td>
+<td>This is ~better~ best!</td>
+</tr>
+</tbody></table>
+<h3 id='response-7'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='list-message'>List Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+          "message":"Hello",
+          "customer_number":"919970XXXXXX",
+          "customer_name": "John Doe",
+          "type": "list",
+          "header": "This is a header",
+          "caption": "This will go in footer",
+          "list_obj": {
+              "button": "Show List",
+              "sections": [
+                  {
+                      "title": "one",
+                      "rows": [
+                          {
+                              "title": "First title",
+                              "id": "id_1",
+                              "description": "test description"
+                          },
+                          {
+                              "title": "second title",
+                              "id": "id_2",
+                              "description": "test description"
+                          }
+                      ]
+                  }
+              ]
+          }
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+          <span class="s">"message"</span><span class="p">:</span><span class="s">"Hello"</span><span class="p">,</span>
+          <span class="s">"customer_number"</span><span class="p">:</span><span class="s">"919970XXXXXX"</span><span class="p">,</span>
+          <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="p">:</span> <span class="s">"quick_reply"</span><span class="p">,</span>
+          <span class="s">"header"</span><span class="p">:</span> <span class="s">"This is a header"</span><span class="p">,</span>
+          <span class="s">"caption"</span><span class="p">:</span> <span class="s">"This will go in footer"</span><span class="p">,</span>
+          <span class="s">"list_obj"</span><span class="p">:</span> <span class="p">{</span>
+              <span class="s">"button"</span><span class="p">:</span> <span class="s">"Show List"</span><span class="p">,</span>
+              <span class="s">"sections"</span><span class="p">:</span> <span class="p">[</span>
+                  <span class="p">{</span>
+                      <span class="s">"title"</span><span class="p">:</span> <span class="s">"one"</span><span class="p">,</span>
+                      <span class="s">"rows"</span><span class="p">:</span> <span class="p">[</span>
+                          <span class="p">{</span>
+                              <span class="s">"title"</span><span class="p">:</span> <span class="s">"First title"</span><span class="p">,</span>
+                              <span class="s">"id"</span><span class="p">:</span> <span class="s">"id_1"</span><span class="p">,</span>
+                              <span class="s">"description"</span><span class="p">:</span> <span class="s">"test description"</span>
+                          <span class="p">},</span>
+                          <span class="p">{</span>
+                              <span class="s">"title"</span><span class="p">:</span> <span class="s">"second title"</span><span class="p">,</span>
+                              <span class="s">"id"</span><span class="p">:</span> <span class="s">"id_2"</span><span class="p">,</span>
+                              <span class="s">"description"</span><span class="p">:</span> <span class="s">"test description"</span>
+                          <span class="p">}</span>
+                      <span class="p">]</span>
+                  <span class="p">}</span>
+              <span class="p">]</span>
+          <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n
+          "message":"Hello",\n
+          "customer_number":"919970XXXXXX",\n
+          "customer_name": "John Doe",\n
+          "type": "quick_reply",\n
+          "header": "This is a header",\n
+          "caption": "This will go in footer"
+          "list_obj": {\n
+              "button": "Show List",\n
+              "sections": [\n
+                  {\n
+                      "title": "one",\n
+                      "rows": [\n
+                          {\n
+                              "title": "First title",\n
+                              "id": "id_1",\n
+                              "description": "test description"\n
+                          },\n
+                          {\n
+                              "title": "second title",\n
+                              "id": "id_2",\n
+                              "description": "test description"\n
+                          }\n
+                      ]\n
+                  }\n
+              ]\n
+          }\n}'</span>
+<span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send List messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-8'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-8'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>list</code> in case of List messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>list_obj</td>
+<td>Yes</td>
+<td>A object which consist of following parameters. <table><thead><tr><td>Parameter</td><td>Required</td><td>Description</td><tr><thead><tr><td>button</td><td>Yes</td><td>Text of the button to trigger the List. It cannot be an empty string and must be unique within the message. Emojis are supported, markdown is not. Maximum length: 20 characters.</td></tr><tr><td>sections</td><td>Yes</td><td>Array of section objects. Minimum of 1, maximum of 10. Each section object has two required parameters as follows: <table><tr><td>title</td><td>Title for section. Acts like a separator in the list. Maximum length: 24 characters.</td></tr><tr><td>rows</td><td>Contains a list of rows. You can have a total of 10 rows across your sections. Each row must have a title (Maximum length: 24 characters) and an ID (Maximum length: 200 characters). You can add a description (Maximum length: 72 characters), but it is optional.</td></tr></table></td></tr></table></td>
+<td>-</td>
+</tr>
+<tr>
+<td>header</td>
+<td>No</td>
+<td>Header content displayed on top of a message. No Emojis. markdown and Links are supported Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The footer content. Emojis, markdown, and links are supported. Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='response-8'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='single-product-message'>Single Product Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+          "message":"Hello",
+          "customer_number":"919970XXXXXX",
+          "customer_name": "John Doe",
+          "type": "product",
+          "caption": "This will go in footer",
+          "product_list": {"product_retailer_id": "sbt_in_4_1"}       
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+          <span class="s">"message"</span><span class="p">:</span><span class="s">"Hello"</span><span class="p">,</span>
+          <span class="s">"customer_number"</span><span class="p">:</span><span class="s">"919970XXXXXX"</span><span class="p">,</span>
+          <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="p">:</span> <span class="s">"product"</span><span class="p">,</span>
+          <span class="s">"caption"</span><span class="p">:</span> <span class="s">"This will go in footer"</span><span class="p">,</span>
+          <span class="s">"product_list"</span><span class="p">:</span> <span class="p">{</span><span class="s">"product_retailer_id"</span><span class="p">:</span> <span class="s">"sbt_in_4_1"</span><span class="p">}</span>       
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n
+          "message":"Hello",\n
+          "customer_number":"919970XXXXXX",\n
+          "customer_name": "John Doe",\n
+          "type": "product",\n
+          "caption": "This will go in footer",\n
+          "product_list": {"product_retailer_id": "sbt_in_4_1"}\n}'</span>
+<span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send Single Product messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<p>This API needs Meta catalog to be connected to your WhatsApp business account. The catalog id should be updated in Sobot before using this API. This API uses that catalog id as a default for refering all your products with <code>product_retailer_id</code>.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-9'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>product</code> in case of Single Product messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>product_list</td>
+<td>Yes</td>
+<td>A object which consist of following parameters. <table><thead><tr><td>Parameter</td><td>Required</td><td>Description</td><tr><thead><tr><td>product_retailer_id</td><td>Yes</td><td>Unique identifier of the product in a catalog. To get this ID go to <a href="https://business.facebook.com/commerce/">Meta Commerce Manager</a> and select your Meta Business account.</td></tr></table></td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The footer content. Emojis, markdown, and links are supported. Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='response-9'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h2 id='multi-product-message'>Multi-product Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">'https://api.sobot.in/message/'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-key: yourapiaccesskey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'x-api-secret: yourapisecretkey'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'content-type'</span>: <span class="s1">'application/json'</span> <span class="se">\</span>
+<span class="nt">--data</span> <span class="s1">'{
+          "message":"Hello",
+          "customer_number":"919970XXXXXX",
+          "customer_name": "John Doe",
+          "type": "product",
+          "header": "This is a header",
+          "caption": "This will go in footer",
+          "product_list": {
+            "sections": [
+            {
+                    "title": "Cakes",
+                    "product_items": [
+                        {
+                            "product_retailer_id": "sbt_in_4_1"
+                        },
+                        {
+                            "product_retailer_id": "sbt_in_4_2"
+                        }
+                    ]
+                }
+            ]
+          }       
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.sobot.in/message/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+          <span class="s">"message"</span><span class="p">:</span><span class="s">"Hello"</span><span class="p">,</span>
+          <span class="s">"customer_number"</span><span class="p">:</span><span class="s">"919970XXXXXX"</span><span class="p">,</span>
+          <span class="s">"customer_name"</span><span class="p">:</span> <span class="s">"John Doe"</span><span class="p">,</span>
+          <span class="s">"type"</span><span class="p">:</span> <span class="s">"product"</span><span class="p">,</span>
+          <span class="s">"header"</span><span class="p">:</span> <span class="s">"This is a header"</span><span class="p">,</span>
+          <span class="s">"caption"</span><span class="p">:</span> <span class="s">"This will go in footer"</span><span class="p">,</span>
+          <span class="s">"product_list"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"sections"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                    <span class="s">"title"</span><span class="p">:</span> <span class="s">"Cakes"</span><span class="p">,</span>
+                    <span class="s">"product_items"</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s">"product_retailer_id"</span><span class="p">:</span> <span class="s">"sbt_in_4_1"</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s">"product_retailer_id"</span><span class="p">:</span> <span class="s">"sbt_in_4_2"</span>
+                        <span class="p">}</span>
+                    <span class="p">]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">}</span>       
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x-api-key'</span><span class="p">:</span> <span class="s">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s">'x-api-secret'</span><span class="p">:</span> <span class="s">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s">'content-type'</span><span class="p">:</span> <span class="s">'application/json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">'HTTP/Request2.php'</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">'https://api.sobot.in/message/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'follow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'x-api-key'</span> <span class="o">=&gt;</span> <span class="s1">'yourapiaccesskey'</span><span class="p">,</span>
+  <span class="s1">'x-api-secret'</span> <span class="o">=&gt;</span> <span class="s1">'yourapisecretkey'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">'{\n
+          "message":"Hello",\n
+          "customer_number":"919970XXXXXX",\n
+          "customer_name": "John Doe",\n
+          "type": "product",\n
+          "header": "This is a header",\n
+          "caption": "This will go in footer",\n
+          "product_list": {\n
+            "sections": [\n
+            {\n
+                    "title": "Cakes",\n
+                    "product_items": [\n
+                        {\n
+                            "product_retailer_id": "sbt_in_4_1"\n
+                        },\n
+                        {\n
+                            "product_retailer_id": "sbt_in_4_2"\n
+                        }\n
+                    ]\n
+                }\n
+            ]\n
+          }\n}'</span>
+<span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">'Unexpected HTTP status: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">' '</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">'Error: '</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wamid.HBgMOTE5OTcwNTg1NTU2FQIAERgSQjhGRDQ2REFBQjAxMjJBM0Q1AA=="</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"submitted"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message sent successfully."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to send Single Product messages to customers using the Sobot platform, enabling seamless communication with your customer.</p>
+
+<p>This API needs Meta catalog to be connected to your WhatsApp business account. The catalog id should be updated in Sobot before using this API. This API uses that catalog id as a default for refering all your products with <code>product_retailer_id</code>.</p>
+
+<aside class="warning">
+You can only send a text message up until 24 hours after receiving a message from the user. If you have not received a message from the user within this time, you will need to start a new conversation by sending a Template message.
+</aside>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/message/</code></p>
+<h3 id='body-parameters-10'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Yes</td>
+<td>The text of the text message which can contain URLs which begin with http:// or https://(All URLs are set to preview in message by default.) and formatting (See Below for formattting options) .<br/> <br/> Maximum length: 1024 characters</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Yes</td>
+<td>Type of message contents. Set to <code>product</code> in case of Single Product messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_number</td>
+<td>Yes</td>
+<td>WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you <strong>include country calling code</strong> when sending a message to a customer. If the country calling code is omitted, your business phone number&#39;s country calling code is prepended to the customer&#39;s phone number. This can result in undelivered or misdelivered messages.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Yes</td>
+<td>Name of a customer for future reference</td>
+<td>-</td>
+</tr>
+<tr>
+<td>product_list</td>
+<td>Yes</td>
+<td>A object which consist of following parameters. <table><thead><tr><td>Parameter</td><td>Required</td><td>Description</td></tr><thead><tr><td>sections</td><td>Yes</td><td>Array of section objects. Minimum of 1, maximum of 30. Each section object has two required parameters as follows: <table><tr><td>title</td><td>Title for section. Acts like a separator in the Product List. Maximum length: 24 characters.</td></tr><tr><td>Product Items</td><td>Array of product objects. There is a minimum of 1 product per section and a maximum of 30 products across all sections. Every object consist of single key <code>product_retailer_id</code>. This is a unique identifier of the product in a catalog. To get this ID go to <a href="https://business.facebook.com/commerce/">Meta Commerce Manager</a> and select your Meta Business account.</td></tr></table></td></tr></table></td>
+<td>-</td>
+</tr>
+<tr>
+<td>header</td>
+<td>No</td>
+<td>Header content displayed on top of a message. No Emojis. markdown and Links are supported Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>caption</td>
+<td>No</td>
+<td>The footer content. Emojis, markdown, and links are supported. Maximum length: 60 characters.</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='response-10'>Response</h3>
+<p>In response of successfully sent messages, you will get <code>id</code> &amp; <code>status</code> under <code>data</code> key. Messages are identified by a unique ID (<code>wamid</code>). You can track message status in the Webhooks through its <code>wamid</code>  (Check Webhook Documentation for recieving Status events of sent messages on your webhook). This <code>wamid</code> can have a maximum length of up to 128 characters.</p>
+<h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
