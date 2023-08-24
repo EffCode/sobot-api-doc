@@ -14,7 +14,7 @@ includes:
   - introduction
   - authentication
   - free-flow-messages
-  # - template
+  - template
   # - template-messages
   # - webhook
   - errors

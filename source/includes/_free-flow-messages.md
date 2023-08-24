@@ -226,7 +226,7 @@ caption | No | The text to send along with the image message.<br/> <br/> Maximum
 
 ### Supported Media Types
 
-| Media     | Supported Types| Size Limit                                       |
+| Media     | Supported Types| Size Limit |
 |-----------|----------------|-----------|
 | image | image/jpeg, image/png Images must be 8-bit, RGB or RGBA | 5MB |
 
@@ -821,7 +821,7 @@ message | Yes | The text of the text message which can contain URLs which begin 
 type | Yes | Type of message contents. Set to ```quick_reply``` in case of Button messages. | -
 customer_number | Yes| WhatsApp phone number of the customer you want to send a message to. <br /> <br />No Plus signs (+), hyphens (-), parenthesis ((,)), and spaces are supported in customer phone number. <br /><br /> We highly recommend that you **include country calling code** when sending a message to a customer. If the country calling code is omitted, your business phone number's country calling code is prepended to the customer's phone number. This can result in undelivered or misdelivered messages. | -
 customer_name | Yes | Name of a customer for future reference | -
-buttons | Yes | Array of strings consist of Title of buttons. You can have up to 3 buttons. It cannot be an empty string and must be unique within the message. Emojis are supported, markdown is not. Maximum length: 20 characters. | -
+buttons | Yes | Array of strings consist of Title of buttons. You can have up to 3 buttons. It cannot be an empty string and must be unique within the message. Emojis are supported, markdown is not. <br/> <br/>Maximum length: 20 characters for each botton title. | -
 header | No | Header content displayed on top of a message. No Emojis. markdown and Links are supported Maximum length: 60 characters.| - 
 caption | No | The footer content. Emojis, markdown, and links are supported. Maximum length: 60 characters. | -
 
