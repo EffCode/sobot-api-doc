@@ -333,6 +333,17 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
+            <a href="#customers" class="toc-h1 toc-link" data-title="Customers">Customers</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#add-customer" class="toc-h2 toc-link" data-title="Add Customer">Add Customer</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-customers" class="toc-h2 toc-link" data-title="Get All Customers">Get All Customers</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#free-flow-messages" class="toc-h1 toc-link" data-title="Free-flow Messages">Free-flow Messages</a>
               <ul class="toc-list-h2">
                   <li>
@@ -507,6 +518,280 @@ Every time you will generate the new keys, old keys will be deprecated.
 <aside class="notice">
 You must replace <code>yourapiaccesskey</code> & <code>yourapisecretkey</code> with your personal API keys.
 </aside>
+<h1 id='customers'>Customers</h1>
+<p>Customers are the user to whom your business interacts through WhatsApp. You can add the customers through API 
+or through Sobot Panel. Sobot automatically adds customers if they messaged your business very first time.</p>
+
+<p><h2 id='add-customer'>Add Customer</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">&#39;https://api.sobot.in/api/customer&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-key: yourapiaccesskey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-secret: yourapisecretkey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;content-type&#39;</span>: <span class="s1">&#39;application/json&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--data</span> <span class="s1">&#39;{
+    &quot;mobile&quot;: &quot;919561XXXXXX&quot;,
+    &quot;name&quot;: &quot;John Doe&quot;
+}&#39;</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">&quot;https://api.sobot.in/api/customer&quot;</span></p>
+
+<p><span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+    <span class="s">&quot;mobile&quot;</span><span class="p">:</span> <span class="s">&quot;919561XXXXXX&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;John Doe&quot;</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="s">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;x-api-secret&#39;</span><span class="p">:</span> <span class="s">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/json&#39;</span>
+<span class="p">}</span></p>
+
+<p><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">&quot;POST&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></p>
+
+<p><span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">&#39;HTTP/Request2.php&#39;</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">&#39;https://api.sobot.in/api/customer&#39;</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_POST</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;follow_redirects&#39;</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;x-api-key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;x-api-secret&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;content-type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;application/json&#39;</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">&#39;{\n
+    &quot;mobile&quot;: &quot;919561XXXXXX&quot;,
+    &quot;name&quot;: &quot;John Doe&quot;\n}&#39;</span>
+<span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;Unexpected HTTP status: &#39;</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">&#39; &#39;</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">&#39;Error: &#39;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span></p>
+
+<p></code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Customer added successfully&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>If customer already exist with same mobile number, you will get following response.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Customer already exists&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>If number is not valid as per the required length or as per the standard rules, you will get following response. </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid mobile number&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to Add Customer to Sobot Platform. Once it is added and that phone number is available on WhatsApp, you are ready to send WhatsApp messages to them.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>POST https://api.sobot.in/api/customer</code></p>
+<h3 id='body-parameters'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mobile</td>
+<td>Yes</td>
+<td>A WhatsApp enabled mobile number with country code. Don&#39;t prefix &#39;+&#39; or &#39;#&#39;.<br/><br/>  Maximum Length: 15 Characters (including country code)</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Yes</td>
+<td>A name of customer. <br/><br/>Maximum Length: 100 Characters</td>
+</tr>
+</tbody></table>
+<h3 id='supported-languages'>Supported Languages</h3>
+<table><thead>
+<tr>
+<th>Lang code</th>
+<th>Language</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>en</td>
+<td>English</td>
+</tr>
+<tr>
+<td>en_US</td>
+<td>English (US)</td>
+</tr>
+<tr>
+<td>en_GB</td>
+<td>English (UK)</td>
+</tr>
+<tr>
+<td>hi</td>
+<td>Hindi</td>
+</tr>
+<tr>
+<td>mr</td>
+<td>Marathi</td>
+</tr>
+</tbody></table></p>
+
+<p><h2 id='get-all-customers'>Get All Customers</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">&#39;https://api.sobot.in/api/customer&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-key: yourapiaccesskey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-secret: yourapisecretkey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;content-type&#39;</span>: <span class="s1">&#39;application/json&#39;</span> <span class="se">&lt;/span&gt;
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">&quot;https://api.sobot.in/api/customer&quot;</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="s">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;x-api-secret&#39;</span><span class="p">:</span> <span class="s">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/json&#39;</span>
+<span class="p">}</span></p>
+
+<p><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></p>
+
+<p><span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">&#39;HTTP/Request2.php&#39;</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">&#39;https://api.sobot.in/api/customer&#39;</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_GET</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;follow_redirects&#39;</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;x-api-key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;x-api-secret&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;content-type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;application/json&#39;</span>
+<span class="p">));</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;Unexpected HTTP status: &#39;</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">&#39; &#39;</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">&#39;Error: &#39;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span></p>
+
+<p></code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;next&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.sobot.in/api/customer?page=2&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;previous&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3588183</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;last_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Doe&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;919561XXXXXX&quot;</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3418855</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Jane Doe&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Jane&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;last_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Doe&quot;</span><span class="p">,</span><span class="w">
+            </span><span class="nl">&quot;mobile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;919970XXXXXX&quot;</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to get all customer from your Sobot account. API response is paginated with page size of 20.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://api.sobot.in/api/customer</code></p>
+<h3 id='response-parameters'>Response Parameters</h3>
+<p><strong>First level Keys</strong></p></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Data</td>
+<td>Array of json objects of customer&#39;s data. Check below table for detail object specification.</td>
+</tr>
+<tr>
+<td>count</td>
+<td>Total count of customers in your account</td>
+</tr>
+<tr>
+<td>size</td>
+<td>size of a current page</td>
+</tr>
+<tr>
+<td>next</td>
+<td>Link to the next page (if any, else null)</td>
+</tr>
+<tr>
+<td>previous</td>
+<td>Link to the previous page (if any, else null)</td>
+</tr>
+<tr>
+<td>code</td>
+<td>200 in case of success. Check Errors for other codes.</td>
+</tr>
+</tbody></table>
+
+<p><strong>Data Object</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Unique identifier for each customer.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>A full name of a customer.</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>A first name of a customer (if any).</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>A last name of a customer (if any).</td>
+</tr>
+<tr>
+<td>mobile</td>
+<td>Mobile number of a customer with country code but without &#39;+&#39; or &#39;#&#39; sign.</td>
+</tr>
+</tbody></table>
 <h1 id='free-flow-messages'>Free-flow Messages</h1>
 <p><h2 id='text-message'>Text Message</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">&#39;https://api.sobot.in/message/&#39;</span> <span class="se">&lt;/span&gt;
 <span class="nt">--header</span> <span class="s1">&#39;x-api-key: yourapiaccesskey&#39;</span> <span class="se">&lt;/span&gt;
