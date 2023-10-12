@@ -6,7 +6,16 @@ curl --location --globoff 'https://api.sobot.in/api/customer' \
 --header 'content-type': 'application/json' \
 --data '{
     "mobile": "919561XXXXXX",
-    "name": "John Doe"
+    "name": "John Doe",
+    "email": "john@example.com",
+    "facebook_profile": "https://facebook.com/johndoe",
+    "linkedin_profile": "https://www.linkedin.com/in/johndoe/",
+    "twitter_profile": "https://www.twitter.com/johndoe/",
+    "gender": "Male",
+    "date_of_birth": "12-12-1991",
+    "extra_fields": {
+        "joining_data": "2023-01-12"
+    }
 }'
 ```
 
@@ -18,7 +27,16 @@ url = "https://api.sobot.in/api/customer"
 payload = json.dumps(
   {
     "mobile": "919561XXXXXX",
-    "name": "John Doe"
+    "name": "John Doe",
+    "email": "john@example.com",
+    "facebook_profile": "https://facebook.com/johndoe",
+    "linkedin_profile": "https://www.linkedin.com/in/johndoe/",
+    "twitter_profile": "https://www.twitter.com/johndoe/",
+    "gender": "Male",
+    "date_of_birth": "12-12-1991",
+    "extra_fields": {
+        "joining_data": "2023-01-12"
+    }
 }
 )
 headers = {
@@ -47,7 +65,16 @@ $request->setHeader(array(
 ));
 $request->setBody('{\n
     "mobile": "919561XXXXXX",
-    "name": "John Doe"\n}'
+    "name": "John Doe"
+    "email": "john@example.com",
+    "facebook_profile": "https://facebook.com/johndoe",
+    "linkedin_profile": "https://www.linkedin.com/in/johndoe/",
+    "twitter_profile": "https://www.twitter.com/johndoe/",
+    "gender": "Male",
+    "date_of_birth": "12-12-1991",
+    "extra_fields": {
+        "joining_data": "2023-01-12"
+    }\n}'
 );
 try {
   $response = $request->send();
@@ -104,13 +131,10 @@ Parameter | Required | Description |
 --------- | ------- | ----------- | 
 mobile | Yes | A WhatsApp enabled mobile number with country code. Don't prefix '+' or '#'.<br/><br/>  Maximum Length: 15 Characters (including country code)
 name | Yes | A name of customer. <br/><br/>Maximum Length: 100 Characters
-
-
-### Supported Languages 
-Lang code | Language |
-----------|----------|
-en | English |
-en_US | English (US) |
-en_GB | English (UK) |
-hi | Hindi |
-mr | Marathi |
+email| No | Email ID of a customer. This should be in a valid format.
+gender | No | A gender of a customer. <br/> <br/> Valid values are : Male or Famale
+date_of_birth | No | Birthdate of a customer in a valid format. <br> <br> Valid Format: DD-MM-YYYY
+facebook_profile | No | A Link of Facebook profile of a customer.
+linkedin_profile | No | A Link of LinkedIn profile of a customer.
+twitter_profile | No | A Link of Twitter profile of a customer.
+extra_fields | No | This is a JSON object which accepts a Key value pair. This allows you to introduce new fields on customer profile as per your need. A Key in JSON should not have a space. If your keys have a space then replace it with underscore (_). <br/><br/> e.g.  ```{ "joining_data": "2023-01-12" }```
