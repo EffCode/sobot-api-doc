@@ -528,7 +528,16 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
 <span class="nt">--header</span> <span class="s1">&#39;content-type&#39;</span>: <span class="s1">&#39;application/json&#39;</span> <span class="se">&lt;/span&gt;
 <span class="nt">--data</span> <span class="s1">&#39;{
     &quot;mobile&quot;: &quot;919561XXXXXX&quot;,
-    &quot;name&quot;: &quot;John Doe&quot;
+    &quot;name&quot;: &quot;John Doe&quot;,
+    &quot;email&quot;: &quot;john@example.com&quot;,
+    &quot;facebook_profile&quot;: &quot;https://facebook.com/johndoe&quot;,
+    &quot;linkedin_profile&quot;: &quot;https://www.linkedin.com/in/johndoe/&quot;,
+    &quot;twitter_profile&quot;: &quot;https://www.twitter.com/johndoe/&quot;,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
+    &quot;extra_fields&quot;: {
+        &quot;joining_data&quot;: &quot;2023-01-12&quot;
+    }
 }&#39;</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -537,7 +546,16 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
 <p><span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
   <span class="p">{</span>
     <span class="s">&quot;mobile&quot;</span><span class="p">:</span> <span class="s">&quot;919561XXXXXX&quot;</span><span class="p">,</span>
-    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;John Doe&quot;</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;John Doe&quot;</span><span class="p">,</span>
+    <span class="s">&quot;email&quot;</span><span class="p">:</span> <span class="s">&quot;john@example.com&quot;</span><span class="p">,</span>
+    <span class="s">&quot;facebook_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://facebook.com/johndoe&quot;</span><span class="p">,</span>
+    <span class="s">&quot;linkedin_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://www.linkedin.com/in/johndoe/&quot;</span><span class="p">,</span>
+    <span class="s">&quot;twitter_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://www.twitter.com/johndoe/&quot;</span><span class="p">,</span>
+    <span class="s">&quot;gender&quot;</span><span class="p">:</span> <span class="s">&quot;Male&quot;</span><span class="p">,</span>
+    <span class="s">&quot;date_of_birth&quot;</span><span class="p">:</span> <span class="s">&quot;12-12-1991&quot;</span><span class="p">,</span>
+    <span class="s">&quot;extra_fields&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;joining_data&quot;</span><span class="p">:</span> <span class="s">&quot;2023-01-12&quot;</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 <span class="p">)</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -563,7 +581,16 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
 <span class="p">));</span>
 <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">&#39;{\n
     &quot;mobile&quot;: &quot;919561XXXXXX&quot;,
-    &quot;name&quot;: &quot;John Doe&quot;\n}&#39;</span>
+    &quot;name&quot;: &quot;John Doe&quot;
+    &quot;email&quot;: &quot;john@example.com&quot;,
+    &quot;facebook_profile&quot;: &quot;https://facebook.com/johndoe&quot;,
+    &quot;linkedin_profile&quot;: &quot;https://www.linkedin.com/in/johndoe/&quot;,
+    &quot;twitter_profile&quot;: &quot;https://www.twitter.com/johndoe/&quot;,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
+    &quot;extra_fields&quot;: {
+        &quot;joining_data&quot;: &quot;2023-01-12&quot;
+    }\n}&#39;</span>
 <span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
@@ -625,33 +652,40 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
 <td>Yes</td>
 <td>A name of customer. <br/><br/>Maximum Length: 100 Characters</td>
 </tr>
-</tbody></table>
-<h3 id='supported-languages'>Supported Languages</h3>
-<table><thead>
 <tr>
-<th>Lang code</th>
-<th>Language</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>en</td>
-<td>English</td>
+<td>email</td>
+<td>No</td>
+<td>Email ID of a customer. This should be in a valid format.</td>
 </tr>
 <tr>
-<td>en_US</td>
-<td>English (US)</td>
+<td>gender</td>
+<td>No</td>
+<td>A gender of a customer. <br/> <br/> Valid values are : Male or Famale</td>
 </tr>
 <tr>
-<td>en_GB</td>
-<td>English (UK)</td>
+<td>date_of_birth</td>
+<td>No</td>
+<td>Birthdate of a customer in a valid format. <br> <br> Valid Format: DD-MM-YYYY</td>
 </tr>
 <tr>
-<td>hi</td>
-<td>Hindi</td>
+<td>facebook_profile</td>
+<td>No</td>
+<td>A Link of Facebook profile of a customer.</td>
 </tr>
 <tr>
-<td>mr</td>
-<td>Marathi</td>
+<td>linkedin_profile</td>
+<td>No</td>
+<td>A Link of LinkedIn profile of a customer.</td>
+</tr>
+<tr>
+<td>twitter_profile</td>
+<td>No</td>
+<td>A Link of Twitter profile of a customer.</td>
+</tr>
+<tr>
+<td>extra_fields</td>
+<td>No</td>
+<td>This is a JSON object which accepts a Key value pair. This allows you to introduce new fields on customer profile as per your need. A Key in JSON should not have a space. If your keys have a space then replace it with underscore (_). <br/><br/> e.g.  <code>{ &quot;joining_data&quot;: &quot;2023-01-12&quot; }</code></td>
 </tr>
 </tbody></table></p>
 
