@@ -339,6 +339,9 @@
                     <a href="#add-customer" class="toc-h2 toc-link" data-title="Add Customer">Add Customer</a>
                   </li>
                   <li>
+                    <a href="#update-customer" class="toc-h2 toc-link" data-title="Update Customer">Update Customer</a>
+                  </li>
+                  <li>
                     <a href="#get-all-customers" class="toc-h2 toc-link" data-title="Get All Customers">Get All Customers</a>
                   </li>
               </ul>
@@ -537,7 +540,8 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
     &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
     &quot;extra_fields&quot;: {
         &quot;joining_data&quot;: &quot;2023-01-12&quot;
-    }
+    },
+    &quot;labels&quot;: [&quot;label1&quot;, &quot;label2&quot;, &quot;label3&quot;]
 }&#39;</span>
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -555,7 +559,8 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
     <span class="s">&quot;date_of_birth&quot;</span><span class="p">:</span> <span class="s">&quot;12-12-1991&quot;</span><span class="p">,</span>
     <span class="s">&quot;extra_fields&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s">&quot;joining_data&quot;</span><span class="p">:</span> <span class="s">&quot;2023-01-12&quot;</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;label1&quot;</span><span class="p">,</span> <span class="s">&quot;label2&quot;</span><span class="p">,</span> <span class="s">&quot;label3&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 <span class="p">)</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -590,7 +595,8 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
     &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
     &quot;extra_fields&quot;: {
         &quot;joining_data&quot;: &quot;2023-01-12&quot;
-    }\n}&#39;</span>
+    },
+    &quot;labels&quot;: [&quot;label1&quot;, &quot;label2&quot;, &quot;label3&quot;] \n}&#39;</span>
 <span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
@@ -686,6 +692,186 @@ or through Sobot Panel. Sobot automatically adds customers if they messaged your
 <td>extra_fields</td>
 <td>No</td>
 <td>This is a JSON object which accepts a Key value pair. This allows you to introduce new fields on customer profile as per your need. A Key in JSON should not have a space. If your keys have a space then replace it with underscore (_). <br/><br/> e.g.  <code>{ &quot;joining_data&quot;: &quot;2023-01-12&quot; }</code></td>
+</tr>
+<tr>
+<td>labels</td>
+<td>No</td>
+<td>List of labels to apply to customer. You can apply Labels to your customers while you are adding them. This is a JSON array of strings .</td>
+</tr>
+</tbody></table></p>
+
+<p><h2 id='update-customer'>Update Customer</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">-X</span> PUT <span class="nt">--location</span> <span class="nt">--globoff</span> <span class="s1">&#39;https://api.sobot.in/api/customer/&lt;mobile_number&gt;&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-key: yourapiaccesskey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;x-api-secret: yourapisecretkey&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--header</span> <span class="s1">&#39;content-type&#39;</span>: <span class="s1">&#39;application/json&#39;</span> <span class="se">&lt;/span&gt;
+<span class="nt">--data</span> <span class="s1">&#39;{
+    &quot;name&quot;: &quot;John Doe&quot;,
+    &quot;email&quot;: &quot;john@example.com&quot;,
+    &quot;facebook_profile&quot;: &quot;https://facebook.com/johndoe&quot;,
+    &quot;linkedin_profile&quot;: &quot;https://www.linkedin.com/in/johndoe/&quot;,
+    &quot;twitter_profile&quot;: &quot;https://www.twitter.com/johndoe/&quot;,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
+    &quot;extra_fields&quot;: {
+        &quot;joining_data&quot;: &quot;2023-01-12&quot;
+    },
+    &quot;labels&quot;: [&quot;label1&quot;, &quot;label2&quot;, &quot;label3&quot;]
+}&#39;</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">&quot;https://api.sobot.in/api/customer&quot;</span></p>
+
+<p><span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+  <span class="p">{</span>
+    <span class="s">&quot;mobile&quot;</span><span class="p">:</span> <span class="s">&quot;919561XXXXXX&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;John Doe&quot;</span><span class="p">,</span>
+    <span class="s">&quot;email&quot;</span><span class="p">:</span> <span class="s">&quot;john@example.com&quot;</span><span class="p">,</span>
+    <span class="s">&quot;facebook_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://facebook.com/johndoe&quot;</span><span class="p">,</span>
+    <span class="s">&quot;linkedin_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://www.linkedin.com/in/johndoe/&quot;</span><span class="p">,</span>
+    <span class="s">&quot;twitter_profile&quot;</span><span class="p">:</span> <span class="s">&quot;https://www.twitter.com/johndoe/&quot;</span><span class="p">,</span>
+    <span class="s">&quot;gender&quot;</span><span class="p">:</span> <span class="s">&quot;Male&quot;</span><span class="p">,</span>
+    <span class="s">&quot;date_of_birth&quot;</span><span class="p">:</span> <span class="s">&quot;12-12-1991&quot;</span><span class="p">,</span>
+    <span class="s">&quot;extra_fields&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;joining_data&quot;</span><span class="p">:</span> <span class="s">&quot;2023-01-12&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;label1&quot;</span><span class="p">,</span> <span class="s">&quot;label2&quot;</span><span class="p">,</span> <span class="s">&quot;label3&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="s">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;x-api-secret&#39;</span><span class="p">:</span> <span class="s">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/json&#39;</span>
+<span class="p">}</span></p>
+
+<p><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="s">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span></p>
+
+<p><span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="k">require_once</span> <span class="s1">&#39;HTTP/Request2.php&#39;</span><span class="p">;</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTP_Request2</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setUrl</span><span class="p">(</span><span class="s1">&#39;https://api.sobot.in/api/customer&#39;</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setMethod</span><span class="p">(</span><span class="n">HTTP_Request2</span><span class="o">::</span><span class="no">METHOD_PUT</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setConfig</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;follow_redirects&#39;</span> <span class="o">=&gt;</span> <span class="kc">TRUE</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setHeader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">&#39;x-api-key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapiaccesskey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;x-api-secret&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yourapisecretkey&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;content-type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;application/json&#39;</span>
+<span class="p">));</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">setBody</span><span class="p">(</span><span class="s1">&#39;{\n
+    &quot;mobile&quot;: &quot;919561XXXXXX&quot;,
+    &quot;name&quot;: &quot;John Doe&quot;
+    &quot;email&quot;: &quot;john@example.com&quot;,
+    &quot;facebook_profile&quot;: &quot;https://facebook.com/johndoe&quot;,
+    &quot;linkedin_profile&quot;: &quot;https://www.linkedin.com/in/johndoe/&quot;,
+    &quot;twitter_profile&quot;: &quot;https://www.twitter.com/johndoe/&quot;,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;date_of_birth&quot;: &quot;12-12-1991&quot;,
+    &quot;extra_fields&quot;: {
+        &quot;joining_data&quot;: &quot;2023-01-12&quot;
+    },
+    &quot;labels&quot;: [&quot;label1&quot;, &quot;label2&quot;, &quot;label3&quot;] \n}&#39;</span>
+<span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getBody</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s1">&#39;Unexpected HTTP status: &#39;</span> <span class="mf">.</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getStatus</span><span class="p">()</span> <span class="mf">.</span> <span class="s1">&#39; &#39;</span> <span class="mf">.</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getReasonPhrase</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="n">HTTP_Request2_Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s1">&#39;Error: &#39;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
+<span class="p">}</span></p>
+
+<p></code></pre></div>
+<blockquote>
+<p>The above API call returns JSON response like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Customer updated successfully&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>If number is not valid as per the required length or as per the standard rules, you will get following response. </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid mobile number&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nl">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This API allows you to Update Customer data on Sobot Platform. </p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>PUT https://api.sobot.in/api/customer/&lt;mobile_number&gt;</code></p>
+<h3 id='path-parameters'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mobile_number</td>
+<td>Yes</td>
+<td>A customer mobile number with country code. Don&#39;t prefix &#39;+&#39; or &#39;#&#39;.</td>
+</tr>
+</tbody></table>
+<h3 id='body-parameters'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>Yes</td>
+<td>A name of customer. <br/><br/>Maximum Length: 100 Characters</td>
+</tr>
+<tr>
+<td>email</td>
+<td>No</td>
+<td>Email ID of a customer. This should be in a valid format.</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>No</td>
+<td>A gender of a customer. <br/> <br/> Valid values are : Male or Famale</td>
+</tr>
+<tr>
+<td>date_of_birth</td>
+<td>No</td>
+<td>Birthdate of a customer in a valid format. <br> <br> Valid Format: DD-MM-YYYY</td>
+</tr>
+<tr>
+<td>facebook_profile</td>
+<td>No</td>
+<td>A Link of Facebook profile of a customer.</td>
+</tr>
+<tr>
+<td>linkedin_profile</td>
+<td>No</td>
+<td>A Link of LinkedIn profile of a customer.</td>
+</tr>
+<tr>
+<td>twitter_profile</td>
+<td>No</td>
+<td>A Link of Twitter profile of a customer.</td>
+</tr>
+<tr>
+<td>extra_fields</td>
+<td>No</td>
+<td>This is a JSON object which accepts a Key value pair. This allows you to introduce new fields on customer profile as per your need. A Key in JSON should not have a space. If your keys have a space then replace it with underscore (_). <br/><br/> e.g.  <code>{ &quot;joining_data&quot;: &quot;2023-01-12&quot; }</code></td>
+</tr>
+<tr>
+<td>labels</td>
+<td>No</td>
+<td>List of labels to apply to customer. This will replace all earlier labels, if any and apply the new ones. This is a JSON array of strings.</td>
 </tr>
 </tbody></table></p>
 
