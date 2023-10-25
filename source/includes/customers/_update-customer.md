@@ -1,11 +1,10 @@
-## Add Customer
+## Update Customer
 ```shell
-curl --location --globoff 'https://api.sobot.in/api/customer' \
+curl -X PUT --location --globoff 'https://api.sobot.in/api/customer/<mobile_number>' \
 --header 'x-api-key: yourapiaccesskey' \
 --header 'x-api-secret: yourapisecretkey' \
 --header 'content-type': 'application/json' \
 --data '{
-    "mobile": "919561XXXXXX",
     "name": "John Doe",
     "email": "john@example.com",
     "facebook_profile": "https://facebook.com/johndoe",
@@ -47,7 +46,7 @@ headers = {
   'content-type': 'application/json'
 }
 
-response = requests.request("POST", url, headers=headers, data=payload)
+response = requests.request("PUT", url, headers=headers, data=payload)
 
 print(response.text)
 ```
@@ -56,7 +55,7 @@ print(response.text)
 require_once 'HTTP/Request2.php';
 $request = new HTTP_Request2();
 $request->setUrl('https://api.sobot.in/api/customer');
-$request->setMethod(HTTP_Request2::METHOD_POST);
+$request->setMethod(HTTP_Request2::METHOD_PUT);
 $request->setConfig(array(
   'follow_redirects' => TRUE
 ));
@@ -99,17 +98,8 @@ catch(HTTP_Request2_Exception $e) {
 
 ```json
 {
-    "message": "Customer added successfully",
+    "message": "Customer updated successfully",
     "code": 201
-}
-```
-
-> If customer already exist with same mobile number, you will get following response.
-
-```json
-{
-    "message": "Customer already exists",
-    "code": 400
 }
 ```
 
@@ -122,17 +112,22 @@ catch(HTTP_Request2_Exception $e) {
 }
 ```
 
-This API allows you to Add Customer to Sobot Platform. Once it is added and that phone number is available on WhatsApp, you are ready to send WhatsApp messages to them.
+This API allows you to Update Customer data on Sobot Platform. 
 
 ### HTTP Request
 
-`POST https://api.sobot.in/api/customer`
+`PUT https://api.sobot.in/api/customer/<mobile_number>`
+
+### Path Parameters
+
+Parameter | Required | Description |
+--------- | ------- | ----------- | 
+mobile_number | Yes | A customer mobile number with country code. Don't prefix '+' or '#'.
 
 ### Body Parameters
 
 Parameter | Required | Description |
 --------- | ------- | ----------- | 
-mobile | Yes | A WhatsApp enabled mobile number with country code. Don't prefix '+' or '#'.<br/><br/>  Maximum Length: 15 Characters (including country code)
 name | Yes | A name of customer. <br/><br/>Maximum Length: 100 Characters
 email| No | Email ID of a customer. This should be in a valid format.
 gender | No | A gender of a customer. <br/> <br/> Valid values are : Male or Famale
@@ -141,4 +136,4 @@ facebook_profile | No | A Link of Facebook profile of a customer.
 linkedin_profile | No | A Link of LinkedIn profile of a customer.
 twitter_profile | No | A Link of Twitter profile of a customer.
 extra_fields | No | This is a JSON object which accepts a Key value pair. This allows you to introduce new fields on customer profile as per your need. A Key in JSON should not have a space. If your keys have a space then replace it with underscore (_). <br/><br/> e.g.  ```{ "joining_data": "2023-01-12" }```
-labels | No | List of labels to apply to customer. You can apply Labels to your customers while you are adding them. This is a JSON array of strings . 
+labels | No | List of labels to apply to customer. This will replace all earlier labels, if any and apply the new ones. This is a JSON array of strings. 
