@@ -15,7 +15,9 @@ curl --location --globoff 'https://api.sobot.in/message/' \
                 "parameters":[
                   {
                     "type": "video",
-                    "link": "https://example.com/videos/20230625_003239.mp4"
+                    "video": {
+                        "link": "https://example.com/videos/20230625_003239.mp4"
+                    }
                   }
                 ]
             }
@@ -40,7 +42,9 @@ payload = json.dumps(
                 "parameters":[
                   {
                     "type": "video",
-                    "link": "https://example.com/videos/20230625_003239.mp4"
+                    "video": {
+                        "link": "https://example.com/videos/20230625_003239.mp4"
+                    }
                   }
                 ]
             }
@@ -82,7 +86,9 @@ $request->setBody('{
                 "parameters":[
                   {
                     "type": "video",
-                    "link": "https://example.com/videos/20230625_003239.mp4"
+                    "video": {
+                      "link": "https://example.com/videos/20230625_003239.mp4"
+                      }
                   }
                 ]
             }

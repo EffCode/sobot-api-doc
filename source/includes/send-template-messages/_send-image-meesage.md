@@ -15,7 +15,9 @@ curl --location --globoff 'https://api.sobot.in/message/' \
                 "parameters":[
                   {
                     "type": "image",
-                    "link": "https://example.com/images/20230625_003239.jpg"
+                    "image":{
+                      "link": "https://example.com/images/20230625_003239.jpg"
+                      }
                   }
                 ]
             }
@@ -40,7 +42,9 @@ payload = json.dumps(
                 "parameters":[
                   {
                     "type": "image",
-                    "link": "https://example.com/images/20230625_003239.jpg"
+                    "image": {
+                      "link": "https://example.com/images/20230625_003239.jpg"
+                    }
                   }
                 ]
             }
@@ -82,7 +86,9 @@ $request->setBody('{
                 "parameters":[
                   {
                     "type": "image",
-                    "link": "https://example.com/images/20230625_003239.jpg"
+                    "image": {
+                      "link": "https://example.com/images/20230625_003239.jpg"
+                      }
                   }
                 ]
             }

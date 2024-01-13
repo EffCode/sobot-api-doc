@@ -15,7 +15,10 @@ curl --location --globoff 'https://api.sobot.in/message/' \
                 "parameters":[
                   {
                     "type": "document",
-                    "link": "https://example.com/documents/20230625_003239.pdf"
+                    "document": {
+                      "link": "https://example.com/documents/20230625_003239.pdf",
+                      "filename" : "20230625_003239.pdf"
+                    }
                   }
                 ]
             }
@@ -40,7 +43,10 @@ payload = json.dumps(
                 "parameters":[
                   {
                     "type": "document",
-                    "link": "https://example.com/documents/20230625_003239.pdf"
+                    "document": {
+                        "link": "https://example.com/documents/20230625_003239.pdf",
+                        "filename" : "20230625_003239.pdf"
+                    }
                   }
                 ]
             }
@@ -82,7 +88,10 @@ $request->setBody('{
                 "parameters":[
                   {
                     "type": "document",
-                    "link": "https://example.com/documents/20230625_003239.pdf"
+                    "document": {
+                        "link": "https://example.com/documents/20230625_003239.pdf",
+                        "filename" : "20230625_003239.pdf"
+                      }
                   }
                 ]
             }
