@@ -5255,7 +5255,9 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;image&quot;,
-                    &quot;link&quot;: &quot;https://example.com/images/20230625_003239.jpg&quot;
+                    &quot;image&quot;:{
+                      &quot;link&quot;: &quot;https://example.com/images/20230625_003239.jpg&quot;
+                      }
                   }
                 ]
             }
@@ -5277,7 +5279,9 @@ catch(HTTP_Request2_Exception $e) {
                 <span class="s">&quot;parameters&quot;</span><span class="p">:[</span>
                   <span class="p">{</span>
                     <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;image&quot;</span><span class="p">,</span>
-                    <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/images/20230625_003239.jpg&quot;</span>
+                    <span class="s">&quot;image&quot;</span><span class="p">:</span> <span class="p">{</span>
+                      <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/images/20230625_003239.jpg&quot;</span>
+                    <span class="p">}</span>
                   <span class="p">}</span>
                 <span class="p">]</span>
             <span class="p">}</span>
@@ -5316,7 +5320,9 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;image&quot;,
-                    &quot;link&quot;: &quot;https://example.com/images/20230625_003239.jpg&quot;
+                    &quot;image&quot;: {
+                      &quot;link&quot;: &quot;https://example.com/images/20230625_003239.jpg&quot;
+                      }
                   }
                 ]
             }
@@ -5419,7 +5425,9 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;video&quot;,
-                    &quot;link&quot;: &quot;https://example.com/videos/20230625_003239.mp4&quot;
+                    &quot;video&quot;: {
+                        &quot;link&quot;: &quot;https://example.com/videos/20230625_003239.mp4&quot;
+                    }
                   }
                 ]
             }
@@ -5441,7 +5449,9 @@ catch(HTTP_Request2_Exception $e) {
                 <span class="s">&quot;parameters&quot;</span><span class="p">:[</span>
                   <span class="p">{</span>
                     <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;video&quot;</span><span class="p">,</span>
-                    <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/videos/20230625_003239.mp4&quot;</span>
+                    <span class="s">&quot;video&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/videos/20230625_003239.mp4&quot;</span>
+                    <span class="p">}</span>
                   <span class="p">}</span>
                 <span class="p">]</span>
             <span class="p">}</span>
@@ -5480,7 +5490,9 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;video&quot;,
-                    &quot;link&quot;: &quot;https://example.com/videos/20230625_003239.mp4&quot;
+                    &quot;video&quot;: {
+                      &quot;link&quot;: &quot;https://example.com/videos/20230625_003239.mp4&quot;
+                      }
                   }
                 ]
             }
@@ -5583,7 +5595,10 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;document&quot;,
-                    &quot;link&quot;: &quot;https://example.com/documents/20230625_003239.pdf&quot;
+                    &quot;document&quot;: {
+                      &quot;link&quot;: &quot;https://example.com/documents/20230625_003239.pdf&quot;,
+                      &quot;filename&quot; : &quot;20230625_003239.pdf&quot;
+                    }
                   }
                 ]
             }
@@ -5605,7 +5620,10 @@ catch(HTTP_Request2_Exception $e) {
                 <span class="s">&quot;parameters&quot;</span><span class="p">:[</span>
                   <span class="p">{</span>
                     <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;document&quot;</span><span class="p">,</span>
-                    <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/documents/20230625_003239.pdf&quot;</span>
+                    <span class="s">&quot;document&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">&quot;link&quot;</span><span class="p">:</span> <span class="s">&quot;https://example.com/documents/20230625_003239.pdf&quot;</span><span class="p">,</span>
+                        <span class="s">&quot;filename&quot;</span> <span class="p">:</span> <span class="s">&quot;20230625_003239.pdf&quot;</span>
+                    <span class="p">}</span>
                   <span class="p">}</span>
                 <span class="p">]</span>
             <span class="p">}</span>
@@ -5644,7 +5662,10 @@ catch(HTTP_Request2_Exception $e) {
                 &quot;parameters&quot;:[
                   {
                     &quot;type&quot;: &quot;document&quot;,
-                    &quot;link&quot;: &quot;https://example.com/documents/20230625_003239.pdf&quot;
+                    &quot;document&quot;: {
+                        &quot;link&quot;: &quot;https://example.com/documents/20230625_003239.pdf&quot;,
+                        &quot;filename&quot; : &quot;20230625_003239.pdf&quot;
+                      }
                   }
                 ]
             }
